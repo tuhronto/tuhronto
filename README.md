@@ -2,28 +2,26 @@
 
 # tuhronto
 
-passion projects mainly do it all for fun
+**passion projects, mainly — i do it all for fun**
 
-<img src="https://img.shields.io/badge/he%2Fhim-BD93F9?style=for-the-badge" />
-<img src="https://komarev.com/ghpvc/?username=tuhronto&style=for-the-badge&color=BD93F9&label=views" />
+<img src="https://img.shields.io/badge/he%2Fhim-8b5cf6?style=flat-square" />&nbsp;
+<img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=python&logoColor=white" />&nbsp;
+<img src="https://img.shields.io/badge/windows-0078D6?style=flat-square&logo=windows&logoColor=white" />&nbsp;
+<img src="https://komarev.com/ghpvc/?username=tuhronto&style=flat-square&color=8b5cf6&label=views" />
 
 </div>
 
----
+<br>
 
-### projects
+## Projects
 
-**[zzboard](https://github.com/tuhronto/zzboard-public)** · python · MIT
-cat-powered terminal dashboard, system stats, weather, spotify, snake + tetris, 8 themes
+| | | |
+|---|---|---|
+| **[zzboard](https://github.com/tuhronto/zzboard-public)** | `python` · `MIT` | a cat-powered terminal dashboard — system stats, weather, spotify, snake + tetris, and 8 themes |
+| **[dopamine](https://github.com/tuhronto/dopamine-releases)** | `windows` | a roblox bootstrapper with a font changer, overlays, custom profiles, and more |
 
-**[dopamine](https://github.com/tuhronto/dopamine-releases)** · windows
-roblox bootstrapper with a easy font changer, overlays, custom profiles, etc
-
----
+<br>
 
 <div align="center">
-
-<img height="160" src="https://github-readme-stats.vercel.app/api?username=tuhronto&show_icons=true&hide_border=true&theme=dracula&count_private=true" />
-<img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=tuhronto&layout=compact&hide_border=true&theme=dracula" />
-
+<img src="https://github-readme-stats.vercel.app/api?username=tuhronto&show_icons=true&hide_border=true&theme=dark&count_private=true&hide=contribs&card_width=450" alt="stats" />
 </div>
