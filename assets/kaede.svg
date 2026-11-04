@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+<defs>
+  <clipPath id="kc"><rect width="1200" height="320" rx="26"/></clipPath>
+  <linearGradient id="kbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c0c0e"/><stop offset=".55" stop-color="#3e1414"/><stop offset="1" stop-color="#6e2618"/></linearGradient>
+  <linearGradient id="kside" x1="0" x2="1"><stop offset=".35" stop-color="#1c0c0e" stop-opacity=".9"/><stop offset=".58" stop-color="#1c0c0e" stop-opacity="0"/></linearGradient>
+  <radialGradient id="kglow" cx=".5" cy=".85" r=".6"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".9"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+  <filter id="kb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="50"/></filter>
+  <style>
+    .rise{animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both}
+    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .note{animation:fall 3.6s linear infinite}
+   @keyframes fall{0%{transform:translateY(0)}36.67%{transform:translateY(285px);opacity:1}38%{transform:translateY(296px);opacity:0}100%{transform:translateY(296px);opacity:0}}
+   .flash{opacity:0;animation:flash 3.6s ease-out infinite}
+   @keyframes flash{0%{opacity:.95}12%{opacity:0}100%{opacity:0}}
+   .leaf{animation:leaf 12s linear infinite}
+   @keyframes leaf{0%{transform:translate(0,-40px) rotate(0)}50%{transform:translate(60px,160px) rotate(200deg)}100%{transform:translate(-20px,370px) rotate(420deg)}}
+  </style>
+</defs>
+<g clip-path="url(#kc)">
+  <rect width="1200" height="320" fill="url(#kbg)"/>
+  <circle cx="1000" cy="40" r="220" fill="#ff9a4d" opacity=".18" filter="url(#kb)"/>
+  
+  <rect x="760" y="0" width="96" height="320" fill="#fff" opacity=".035"/>
+  <rect x="768" y="246" width="80" height="18" rx="9" fill="none" stroke="#ffe2bf" stroke-opacity=".55" stroke-width="2"/>
+  <rect class="flash" style="animation-delay:1.32s" x="762" y="200" width="92" height="64" fill="url(#kglow)"/>
+  <text x="808" y="296" text-anchor="middle" font-family="Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#ffe2bf" opacity=".6">d</text>
+  <rect x="864" y="0" width="96" height="320" fill="#fff" opacity=".035"/>
+  <rect x="872" y="246" width="80" height="18" rx="9" fill="none" stroke="#ffe2bf" stroke-opacity=".55" stroke-width="2"/>
+  <rect class="flash" style="animation-delay:1.92s" x="866" y="200" width="92" height="64" fill="url(#kglow)"/>
+  <text x="912" y="296" text-anchor="middle" font-family="Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#ffe2bf" opacity=".6">f</text>
+  <rect x="968" y="0" width="96" height="320" fill="#fff" opacity=".035"/>
+  <rect x="976" y="246" width="80" height="18" rx="9" fill="none" stroke="#ffe2bf" stroke-opacity=".55" stroke-width="2"/>
+  <rect class="flash" style="animation-delay:1.62s" x="970" y="200" width="92" height="64" fill="url(#kglow)"/>
+  <text x="1016" y="296" text-anchor="middle" font-family="Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#ffe2bf" opacity=".6">j</text>
+  <rect x="1072" y="0" width="96" height="320" fill="#fff" opacity=".035"/>
+  <rect x="1080" y="246" width="80" height="18" rx="9" fill="none" stroke="#ffe2bf" stroke-opacity=".55" stroke-width="2"/>
+  <rect class="flash" style="animation-delay:2.22s" x="1074" y="200" width="92" height="64" fill="url(#kglow)"/>
+  <text x="1120" y="296" text-anchor="middle" font-family="Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#ffe2bf" opacity=".6">k</text>
+  <g><rect class="note" style="animation-delay:0.00s" x="768" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:0.30s" x="976" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:0.60s" x="872" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:0.90s" x="1080" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:1.20s" x="768" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:1.50s" x="872" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:1.80s" x="976" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:2.10s" x="1080" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:2.40s" x="872" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:2.70s" x="976" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:3.00s" x="768" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/><rect class="note" style="animation-delay:3.30s" x="1080" y="-30" width="80" height="18" rx="9" fill="#ffe2bf"/></g>
+  <rect x="0" y="0" width="1200" height="320" fill="url(#kside)"/>
+  <g transform="translate(462,0)"><g class="leaf" style="animation-duration:15.6s;animation-delay:-5.7s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#e8572a" transform="scale(0.73)" opacity=".9"/></g></g><g transform="translate(138,0)"><g class="leaf" style="animation-duration:14.0s;animation-delay:-10.0s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#f08a3c" transform="scale(0.66)" opacity=".9"/></g></g><g transform="translate(906,0)"><g class="leaf" style="animation-duration:13.8s;animation-delay:-2.9s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#c7372a" transform="scale(0.75)" opacity=".9"/></g></g><g transform="translate(343,0)"><g class="leaf" style="animation-duration:13.7s;animation-delay:-7.0s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#f2b04a" transform="scale(1.09)" opacity=".9"/></g></g><g transform="translate(477,0)"><g class="leaf" style="animation-duration:11.9s;animation-delay:-3.0s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#e8572a" transform="scale(1.17)" opacity=".9"/></g></g><g transform="translate(592,0)"><g class="leaf" style="animation-duration:16.1s;animation-delay:-8.0s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#f08a3c" transform="scale(1.17)" opacity=".9"/></g></g><g transform="translate(932,0)"><g class="leaf" style="animation-duration:13.9s;animation-delay:-13.2s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#c7372a" transform="scale(0.67)" opacity=".9"/></g></g><g transform="translate(461,0)"><g class="leaf" style="animation-duration:14.7s;animation-delay:-15.7s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#f2b04a" transform="scale(0.64)" opacity=".9"/></g></g><g transform="translate(450,0)"><g class="leaf" style="animation-duration:16.4s;animation-delay:-12.7s"><path d="M0,-22 L5,-9 L16,-14 L12,-2 L22,0 L11,6 L14,14 L3,10 L1,22 L-1,22 L-3,10 L-14,14 L-11,6 L-22,0 L-12,-2 L-16,-14 L-5,-9 Z" fill="#e8572a" transform="scale(0.76)" opacity=".9"/></g></g>
+  <g >
+    <text x="72" y="150" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="78" fill="#fff4e6" letter-spacing="-1">kaede!</text>
+    <text x="76" y="196" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#f3c9a8">rhythm game in your browser. drop in any song,</text>
+    <text x="76" y="224" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#f3c9a8">it writes the chart for you</text>
+    <text x="76" y="276" font-family="Consolas, 'SF Mono', Menlo, monospace" font-size="12" fill="#c98f6c" letter-spacing="3">PLAYKAEDE.VERCEL.APP</text>
+  </g>
+</g>
+<rect x=".5" y=".5" width="1199" height="319" rx="26" fill="none" stroke="#fff" stroke-opacity=".08"/>
+</svg>

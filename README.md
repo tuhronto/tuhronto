@@ -1,30 +1,18 @@
-<div align="center">
-  <img src="banner.png" alt="tuhronto" width="100%" />
-</div>
+<p align="center">
+  <img src="assets/header.svg" width="100%" alt="tuhronto" />
+</p>
 
-## Projects
+<br>
 
-### 🐱 [zzboard](https://github.com/tuhronto/zzboard-public)
+<a href="https://getversed.vercel.app"><img src="assets/versed.svg" width="100%" alt="versed" /></a>
+<p align="right"><sub><a href="https://getversed.vercel.app">site</a> &nbsp;·&nbsp; <a href="https://github.com/tuhronto/versed/releases/latest">download</a></sub></p>
 
-![version](https://img.shields.io/github/v/release/tuhronto/zzboard-public?style=flat-square&color=8b5cf6&label=version)
-![downloads](https://img.shields.io/github/downloads/tuhronto/zzboard-public/total?style=flat-square&color=8b5cf6&label=downloads)
-![license](https://img.shields.io/badge/license-MIT-8b5cf6?style=flat-square)
-![stars](https://img.shields.io/github/stars/tuhronto/zzboard-public?style=flat-square&color=8b5cf6)
+<a href="https://playkaede.vercel.app"><img src="assets/kaede.svg" width="100%" alt="kaede!" /></a>
+<p align="right"><sub><a href="https://playkaede.vercel.app">play it</a></sub></p>
 
-a cat-powered terminal dashboard. live system stats, weather, spotify now-playing, snake + tetris, 8 live themes, and a sleeping cat that reacts to your music and cpu. no account, no telemetry.
+<a href="https://github.com/tuhronto/zzboard-public"><img src="assets/zzboard.svg" width="100%" alt="zzboard" /></a>
+<p align="right"><sub><a href="https://github.com/tuhronto/zzboard-public">source</a> &nbsp;·&nbsp; <a href="https://github.com/tuhronto/zzboard-public/releases/latest">download</a></sub></p>
 
-### 💊 [dopamine](https://github.com/tuhronto/dopamine-releases)
-
-![version](https://img.shields.io/github/v/release/tuhronto/dopamine-releases?style=flat-square&color=8b5cf6&label=version)
-![downloads](https://img.shields.io/github/downloads/tuhronto/dopamine-releases/total?style=flat-square&color=8b5cf6&label=downloads)
-![platform](https://img.shields.io/badge/platform-windows-8b5cf6?style=flat-square)
-![roblox](https://img.shields.io/badge/roblox-bootstrapper-8b5cf6?style=flat-square)
-
-a roblox bootstrapper with a built-in font changer, overlays, custom profiles, and more. source is private, builds ship public on the releases page.
-
-## Tech
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Rich TUI](https://img.shields.io/badge/Rich_TUI-8b5cf6?style=for-the-badge&logo=gnometerminal&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+<p align="center">
+  <img src="assets/footer.svg" width="100%" alt="" />
+</p>
