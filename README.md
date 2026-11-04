@@ -13,6 +13,4 @@
 <a href="https://github.com/tuhronto/zzboard-public"><img src="https://raw.githubusercontent.com/tuhronto/tuhronto/output/zzboard.svg" width="100%" alt="zzboard" /></a>
 <p align="right"><sub><a href="https://github.com/tuhronto/zzboard-public">source</a> &nbsp;·&nbsp; <a href="https://github.com/tuhronto/zzboard-public/releases/latest">download</a></sub></p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/tuhronto/tuhronto/output/footer.svg" width="100%" alt="" />
-</p>
+<a href="https://discord.com/users/1499634995655082138"><img src="https://raw.githubusercontent.com/tuhronto/tuhronto/output/footer.svg" width="100%" alt="say hi: @ztuhronto on discord" /></a>

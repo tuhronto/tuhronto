@@ -110,13 +110,44 @@ function treeline() {
   return d + 'L1200,380 Z';
 }
 function grass() {
+  const cols = ['#c9b17c', '#a48d5e', '#8a744a', '#d8c494', '#7a6a48'];
   let s = '';
-  for (let i = 0; i < 300; i++) {
-    const x = rnd() * 1200, y = 368 + rnd() * 14, h = 8 + rnd() * 18;
-    s += `<path d="M${f(x)},${f(y)} q${f(rnd() * 6 - 3)},-${f(h / 2)} ${f(rnd() * 8 - 4)},-${f(h)}"/>`;
+  for (let i = 0; i < 620; i++) {
+    const x = rnd() * 1200, y = 372 + rnd() * 22, h = 10 + rnd() * 22 * ((y - 360) / 34);
+    s += `<path d="M${f(x)},${f(y)} q${f(rnd() * 6 - 3)},-${f(h / 2)} ${f(rnd() * 10 - 5)},-${f(h)}" stroke="${cols[i % 5]}" stroke-width="${f(1.2 + rnd() * 1.4)}" opacity="${f(0.55 + rnd() * 0.45)}"/>`;
   }
   return s;
 }
+// gravel: small and sharp near the grass, bigger and softer toward the lens
+function pebbles() {
+  const cols = ['#8f877c', '#a69e92', '#6f685f', '#c2bbb0', '#9a8f80'];
+  let far = '', near = '';
+  for (let i = 0; i < 260; i++) {
+    const y = 392 + rnd() ** 0.8 * 68, k = (y - 392) / 68;
+    const x = rnd() * 1200, r = 1 + k * 4.5 + rnd() * 2;
+    const p = `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(r * 1.3)}" ry="${f(r * 0.8)}" fill="${cols[i % 5]}"/><ellipse cx="${f(x - r * 0.3)}" cy="${f(y - r * 0.35)}" rx="${f(r * 0.6)}" ry="${f(r * 0.3)}" fill="#fff" opacity=".25"/>`;
+    if (k < 0.45) far += p; else near += p;
+  }
+  return `<g opacity=".7">${far}</g><g opacity=".75" filter="url(#pebblur)">${near}</g>`;
+}
+// big out-of-focus blades in the right corner, for depth
+function fgGrass() {
+  let s = '';
+  for (let i = 0; i < 22; i++) {
+    const x = 930 + rnd() * 290, h = 50 + rnd() * 90, bend = (rnd() - 0.3) * 50;
+    s += `<path d="M${f(x)},470 q${f(bend * 0.3)},-${f(h * 0.6)} ${f(bend)},-${f(h)}" stroke="${['#8c774f', '#6f5f40', '#a8915f'][i % 3]}" stroke-width="${f(4 + rnd() * 5)}" opacity=".85"/>`;
+  }
+  return s;
+}
+function forest() {
+  let s = '';
+  for (let i = 0; i < 700; i++) {
+    const x = 220 + rnd() * 1020, y = 262 + rnd() * 80;
+    s += `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(2 + rnd() * 3)}" ry="${f(3 + rnd() * 4)}"/>`;
+  }
+  return s;
+}
+const mtPath = mountainPath();
 function stars() {
   if (!P.stars) return '';
   let s = '';
@@ -176,6 +207,17 @@ const header = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" w
   <mask id="crescent"><circle cx="1070" cy="78" r="20" fill="#fff"/><circle cx="1079" cy="72" r="18" fill="#000"/></mask>
   <clipPath id="snowclip"><path d="${sn.d}"/></clipPath>
   <clipPath id="frame"><rect width="1200" height="460" rx="26"/></clipPath>
+  <linearGradient id="field" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e5f40"/><stop offset="1" stop-color="#b09a6a"/></linearGradient>
+  <radialGradient id="catbody" cx=".55" cy=".85" r=".7"><stop offset="0" stop-color="#f8f6f2"/><stop offset=".7" stop-color="#ebe7e0"/><stop offset="1" stop-color="#d2cbc1"/></radialGradient>
+  <radialGradient id="cathead" cx=".45" cy=".3" r=".75"><stop offset="0" stop-color="#f6f3ee"/><stop offset=".75" stop-color="#e2ddd5"/><stop offset="1" stop-color="#b8b0a4"/></radialGradient>
+  <linearGradient id="forestfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <mask id="forestmask"><rect y="240" width="1240" height="140" fill="url(#forestfade)"/></mask>
+  <clipPath id="mtclip"><path d="${mtPath}"/></clipPath>
+  <filter id="blades" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="1"/></filter>
+  <filter id="pebblur" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>
+  <filter id="fgblur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+  <filter id="lens" x="-30%" y="-200%" width="160%" height="500%"><feGaussianBlur stdDeviation="2.6"/></filter>
+  <filter id="cirrus" x="-20%" y="-400%" width="140%" height="900%"><feGaussianBlur stdDeviation="4"/></filter>
   <clipPath id="belly"><path d="M40,470 C20,398 110,338 250,332 C390,326 480,352 528,384 C566,410 566,452 546,470 Z"/></clipPath>
   <clipPath id="headc"><circle cx="596" cy="412" r="92"/></clipPath>
   <style>
@@ -193,6 +235,8 @@ const header = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" w
     @keyframes sway{0%,100%{d:path("M-10,286 Q600,302 1210,262")}50%{d:path("M-10,286 Q600,307 1210,262")}}
     .tw{animation:tw 3s ease-in-out infinite}
     @keyframes tw{0%,100%{opacity:.15}50%{opacity:1}}
+    .lens{animation:lens 24s ease-in-out infinite}
+    @keyframes lens{0%,100%{transform:translateX(-8px)}50%{transform:translateX(10px)}}
     .m{display:none}
     @media (max-width:600px){.d{display:none}}
     @media (prefers-reduced-motion:reduce){*{animation:none!important}.z{opacity:0}}
@@ -211,60 +255,84 @@ const header = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" w
     <g class="drift2" style="animation-delay:-95s"><ellipse cx="160" cy="210" rx="140" ry="10" opacity=".5"/></g>
   </g>
 
-  <path d="${mountainPath()}" fill="url(#mt)"/>
+  <path d="${mtPath}" fill="url(#mt)"/>
   <path d="${sn.d}" fill="url(#snow)"/>
   <g clip-path="url(#snowclip)" stroke="${P.snow[1]}" fill="none" stroke-linecap="round" opacity=".4" filter="url(#ridgeblur)">${ridges()}</g>
   <g stroke="${P.snow[0]}" stroke-linecap="round" fill="none" opacity=".35">
     ${sn.streaks.map(([x, y, l]) => `<path d="M${f(x)},${f(y)} l${f((rnd() - 0.5) * 8)},${f(l)}" stroke-width="${f(1 + rnd() * 1.6)}"/>`).join('')}
   </g>
   <path d="M756,91 C790,150 812,220 860,372 L1240,372 L1240,320 C1080,300 900,220 770,92 Z" fill="url(#shade)"/>
+  <g clip-path="url(#mtclip)" mask="url(#forestmask)">
+    <rect y="240" width="1240" height="140" fill="${P.mt[1]}" opacity=".55"/>
+    <g fill="#0b1426" opacity=".28">${forest()}</g>
+  </g>
+  <path d="M${L(0.62).map(f).join(',')} ${Array.from({ length: 32 }, (_, i) => L(0.62 - (i + 1) * 0.0194).map(f).join(',')).map((p) => `L${p}`).join(' ')}" stroke="${P.snow[0]}" stroke-width="2" fill="none" opacity=".35" filter="url(#soft)"/>
+  <g class="lens" fill="${P.cloud[0]}" opacity="${f(P.cloud[1] * 0.85)}" filter="url(#lens)">
+    <ellipse cx="732" cy="70" rx="118" ry="8"/><ellipse cx="736" cy="60" rx="92" ry="7" opacity=".85"/><ellipse cx="730" cy="51" rx="62" ry="5" opacity=".7"/>
+  </g>
+  <g fill="${P.cloud[0]}" opacity="${f(P.cloud[1] * 0.45)}" filter="url(#cirrus)">
+    <ellipse class="drift2" style="animation-delay:-20s" cx="400" cy="26" rx="230" ry="3" transform="rotate(-3 400 26)"/>
+    <ellipse class="drift2" style="animation-delay:-80s" cx="500" cy="44" rx="180" ry="2.5" transform="rotate(-2 500 44)"/>
+  </g>
   <rect y="240" width="1200" height="110" fill="url(#haze)"/>
 
   <g filter="url(#light)">
     <path d="M0,338 C200,322 420,330 640,326 C840,322 1020,312 1200,318 L1200,380 L0,380 Z" fill="#26386a" filter="url(#haze2)"/>
     <path d="${treeline()}" fill="#141a2c" filter="url(#haze2)"/>
-    <g stroke="#9c8a62" stroke-width="2" fill="none" opacity=".8" filter="url(#haze2)">${grass()}</g>
+    <path d="M0,356 C300,350 700,354 1200,350 L1200,396 L0,396 Z" fill="url(#field)" filter="url(#haze2)"/>
+    <g fill="none" stroke-linecap="round" filter="url(#blades)">${grass()}</g>
     <path class="wire" d="M-10,286 Q600,302 1210,262" stroke="#8a6b4a" stroke-width="1.6" fill="none" opacity=".8" filter="url(#soft)"/>
-    <rect y="374" width="1200" height="86" fill="url(#ground)"/>
-    <rect y="374" width="1200" height="86" fill="#fff" filter="url(#grit)"/>
+    <path d="M0,390 C200,383 420,389 640,385 C860,381 1040,387 1200,383 L1200,460 L0,460 Z" fill="url(#ground)"/>
+    <path d="M0,390 C200,383 420,389 640,385 C860,381 1040,387 1200,383 L1200,460 L0,460 Z" fill="#fff" filter="url(#grit)"/>
+    ${pebbles()}
 
     <g filter="url(#fur)">
-      <ellipse cx="300" cy="472" rx="290" ry="30" fill="#3c3631" opacity=".45"/>
+      <ellipse cx="320" cy="474" rx="320" ry="34" fill="#2e2924" opacity=".5"/>
+      <path d="M70,452 C30,446 0,420 -20,392" stroke="#e4dfd8" stroke-width="34" fill="none" stroke-linecap="round"/>
+      <path d="M70,452 C30,446 0,420 -20,392" stroke="#6e665c" stroke-width="34" fill="none" stroke-dasharray="12 16" opacity=".6"/>
+      <path d="M206,372 L252,318" stroke="#e9e4dd" stroke-width="64" stroke-linecap="round"/>
       <g class="breathe">
-        <path d="M40,470 C20,398 110,338 250,332 C390,326 480,352 528,384 C566,410 566,452 546,470 Z" fill="#ece8e2"/>
-        <g clip-path="url(#belly)" stroke="#7a7268" stroke-width="16" fill="none" stroke-linecap="round" opacity=".55">
-          <path d="M120,470 C130,430 150,400 190,380"/><path d="M200,470 C205,440 225,410 260,392"/>
-          <path d="M300,470 C300,446 318,420 350,404"/><path d="M400,470 C396,446 410,422 440,408"/>
-          <path d="M470,470 C470,446 480,426 500,412" opacity=".7"/>
-          <path d="M60,420 C90,410 110,390 120,370" opacity=".6"/>
+        <path d="M40,470 C20,398 110,338 250,332 C390,326 480,352 528,384 C566,410 566,452 546,470 Z" fill="url(#catbody)"/>
+        <g clip-path="url(#belly)" stroke="#6e665c" fill="none" stroke-linecap="round" opacity=".6">
+          <path d="M120,470 C130,430 150,400 190,380" stroke-width="18"/><path d="M190,470 C196,440 218,410 252,392" stroke-width="16"/>
+          <path d="M268,470 C270,446 288,420 318,404" stroke-width="12"/><path d="M340,470 C340,446 356,424 384,410" stroke-width="12"/>
+          <path d="M420,470 C418,446 432,424 458,412" stroke-width="15"/><path d="M490,470 C490,448 500,428 516,416" stroke-width="13"/>
+          <path d="M60,420 C90,410 110,390 120,370" stroke-width="16" opacity=".7"/><path d="M150,350 C190,338 230,336 270,338" stroke-width="10" opacity=".5"/>
         </g>
-        <ellipse cx="330" cy="452" rx="170" ry="24" fill="#fbfaf7" opacity=".75"/>
+        <ellipse cx="330" cy="448" rx="176" ry="30" fill="#fbfaf7" opacity=".8"/>
+        <g fill="#7a7268" opacity=".35"><ellipse cx="260" cy="446" rx="9" ry="6"/><ellipse cx="320" cy="456" rx="8" ry="5"/><ellipse cx="384" cy="444" rx="9" ry="6"/><ellipse cx="440" cy="454" rx="7" ry="5"/></g>
       </g>
-      <ellipse cx="268" cy="330" rx="62" ry="42" fill="#f3f0eb" transform="rotate(-14 268 330)"/>
-      <path d="M236,300 C246,286 266,284 280,292" stroke="#857c71" stroke-width="9" fill="none" opacity=".45" stroke-linecap="round"/>
-      <ellipse cx="72" cy="372" rx="44" ry="36" fill="#e2ddd6"/>
+      <ellipse cx="270" cy="306" rx="46" ry="34" fill="#f4f1ec" transform="rotate(-30 270 306)"/>
+      <g fill="#f4f1ec"><circle cx="284" cy="276" r="12"/><circle cx="302" cy="286" r="12"/><circle cx="306" cy="306" r="11"/></g>
+      <ellipse cx="72" cy="380" rx="40" ry="32" fill="#e8e3dc"/>
       <path d="M512,360 C530,390 534,430 520,468" stroke="#a32c3c" stroke-width="12" fill="none"/>
-      <circle cx="532" cy="414" r="8" fill="#e2b04a"/>
-      <circle cx="596" cy="412" r="92" fill="#e7e2db"/>
+      <circle cx="534" cy="420" r="9" fill="#e2b04a"/><circle cx="531" cy="417" r="3" fill="#fff3c4"/>
+      <g transform="translate(486,352) rotate(-20)"><ellipse rx="24" ry="19" fill="#f4f1ec"/><g fill="#e8a0a6" opacity=".55" transform="scale(.8)"><ellipse cx="0" cy="5" rx="9" ry="7"/><circle cx="-12" cy="-7" r="4"/><circle cx="-3" cy="-12" r="4"/><circle cx="7" cy="-11" r="4"/><circle cx="14" cy="-4" r="4"/></g></g>
+      <circle cx="596" cy="412" r="92" fill="url(#cathead)"/>
       <g clip-path="url(#headc)">
-        <g stroke="#6f675d" stroke-width="11" stroke-linecap="round" opacity=".55" fill="none">
+        <g stroke="#6a6258" stroke-width="11" stroke-linecap="round" opacity=".6" fill="none">
           <path d="M600,500 C602,462 600,444 596,428"/><path d="M626,496 C628,462 622,444 614,430"/><path d="M574,498 C574,462 578,446 584,432"/>
-          <path d="M660,440 C674,426 684,410 688,392" opacity=".6"/><path d="M530,440 C520,426 512,410 510,392" opacity=".6"/>
+          <path d="M664,438 C678,424 686,408 690,390" opacity=".7"/><path d="M528,438 C516,424 508,408 506,390" opacity=".7"/>
+          <path d="M652,408 C664,400 676,398 688,400" stroke-width="7" opacity=".55"/><path d="M540,408 C528,402 516,402 504,404" stroke-width="7" opacity=".55"/>
         </g>
-        <ellipse cx="596" cy="352" rx="70" ry="34" fill="#f8f5f0"/>
+        <ellipse cx="572" cy="344" rx="34" ry="24" fill="#f9f7f3"/><ellipse cx="616" cy="342" rx="34" ry="24" fill="#f9f7f3"/>
+        <ellipse cx="594" cy="320" rx="22" ry="12" fill="#fbfaf7"/>
       </g>
-      <g class="ear"><path d="M650,446 L716,454 L684,396 Z" fill="#b9b1a6"/><path d="M660,442 L700,446 L682,410 Z" fill="#e8b0ad" opacity=".8"/></g>
-      <path d="M534,452 L556,500 L588,478 Z" fill="#b9b1a6"/>
-      <ellipse cx="578" cy="344" rx="15" ry="10" fill="#e48791"/>
-      <path d="M560,356 q18,10 36,0" stroke="#8a6f6a" stroke-width="2.5" fill="none" opacity=".6"/>
-      <path d="M548,394 q12,8 26,0" stroke="#3a332d" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M608,384 q12,8 26,0" stroke="#3a332d" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="ear"><path d="M650,446 L716,454 L684,396 Z" fill="#a9a196"/><path d="M660,442 L700,446 L682,410 Z" fill="#e8b0ad" opacity=".85"/><path d="M700,452 L716,454 L708,440 Z" fill="#5e574e"/></g>
+      <path d="M534,452 L556,500 L588,478 Z" fill="#a9a196"/><path d="M546,462 L558,488 L576,476 Z" fill="#e8b0ad" opacity=".7"/>
+      <path d="M580,360 L604,360 L592,346 Z" fill="#e48791" stroke="#e48791" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M576,332 q8,-7 16,0 q8,-7 16,0" stroke="#8a6f6a" stroke-width="2.5" fill="none" opacity=".7" stroke-linecap="round"/>
+      <path d="M592,346 L592,334" stroke="#8a6f6a" stroke-width="2.2" opacity=".6"/>
+      <path d="M546,392 q14,-8 28,0" stroke="#3a332d" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M610,390 q14,-8 28,0" stroke="#3a332d" stroke-width="4" fill="none" stroke-linecap="round"/>
     </g>
     <g stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".85" filter="url(#soft)">
-      <path d="M590,340 C610,300 630,268 648,248"/><path d="M596,344 C624,312 650,290 672,276"/>
-      <path d="M600,350 C632,330 664,318 690,312"/><path d="M584,338 C592,300 600,270 606,250"/>
-      <path d="M566,344 C556,316 548,296 540,282"/><path d="M560,348 C540,326 524,312 508,304"/>
+      <path d="M604,340 C626,300 646,270 664,250"/><path d="M610,344 C636,314 660,292 684,278"/>
+      <path d="M614,350 C644,330 674,320 700,314"/><path d="M598,336 C606,298 612,270 618,248"/>
+      <path d="M572,340 C560,312 552,292 544,278"/><path d="M566,344 C546,324 528,310 512,302"/>
+      <path d="M570,350 C546,340 526,336 506,334"/>
     </g>
+    <g filter="url(#fgblur)" fill="none" stroke-linecap="round">${fgGrass()}</g>
   </g>
 
   <text class="z" x="660" y="300" font-size="30">z</text>
