@@ -596,91 +596,158 @@ const zz = card({
 writeFileSync(`${out}/zzboard.svg`, zz);
 
 /* ---------------- footer ---------------- */
-// same sky as the header, a trail of prints across the gravel to a cat asleep at the end of it
+// the header's landscape, seen further off: a small fuji, the same field and gravel,
+// and paw prints leading to a red post box with the cat asleep on top
 const DISCORD = '@ztuhronto';
-const PAWS = 13, STEP_S = 0.42;
+const PAWS = 14, STEP_S = 0.4;
 const paw = `<path d="M-8,4 C-9,-3 -4,-7 0,-7 C4,-7 9,-3 8,4 C7,9 3,9 0,8 C-3,9 -7,9 -8,4 Z"/>
     <ellipse cx="-10" cy="-10" rx="3.4" ry="4.4" transform="rotate(-25 -10 -10)"/><ellipse cx="-3.6" cy="-15" rx="3.4" ry="4.6"/>
     <ellipse cx="3.6" cy="-15" rx="3.4" ry="4.6"/><ellipse cx="10" cy="-10" rx="3.4" ry="4.4" transform="rotate(25 10 -10)"/>`;
 const paws = Array.from({ length: PAWS }, (_, i) => {
-  const x = 470 + i * 38, y = 182 + Math.sin(i * 0.5) * 4 + (i % 2 ? -9 : 9);
-  return `<g class="paw" style="animation-delay:${f(i * STEP_S)}s" transform="translate(${f(x)},${f(y)}) rotate(${i % 2 ? 84 : 96}) scale(.8)">${paw}</g>`;
+  const x = 440 + i * 40, y = 196 + Math.sin(i * 0.45) * 3 + (i % 2 ? -8 : 8);
+  return `<g class="paw" style="animation-delay:${f(i * STEP_S)}s" transform="translate(${f(x)},${f(y)}) rotate(${i % 2 ? 84 : 96}) scale(${f(0.8 + i * 0.012)})">${paw}</g>`;
 }).join('');
-const fStars = P.stars ? Array.from({ length: 50 }, () => {
+const fStars = P.stars ? Array.from({ length: 60 }, () => {
   const tw = rnd() < 0.4 ? ` class="tw" style="animation-delay:${f(-rnd() * 4)}s"` : '';
-  return `<circle${tw} cx="${f(rnd() * 1200)}" cy="${f(rnd() * 130)}" r="${f(0.5 + rnd() * 1.2)}" fill="#fff" opacity="${f((0.4 + rnd() * 0.6) * P.stars)}"/>`;
+  return `<circle${tw} cx="${f(rnd() * 1200)}" cy="${f(rnd() * 120)}" r="${f(0.5 + rnd() * 1.2)}" fill="#fff" opacity="${f((0.4 + rnd() * 0.6) * P.stars)}"/>`;
 }).join('') : '';
+// fireflies after dark, drifting dust in daylight
+const dark = !!P.stars;
+const motes = Array.from({ length: dark ? 14 : 10 }, () => {
+  const x = 420 + rnd() * 760, y = 90 + rnd() * 90, d = f(5 + rnd() * 6);
+  return `<circle class="mote" style="animation-duration:${d}s;animation-delay:${f(-rnd() * 8)}s" cx="${f(x)}" cy="${f(y)}" r="${f(dark ? 1.8 + rnd() * 1.4 : 1.2 + rnd())}" fill="${dark ? '#ffe28a' : '#fff'}" filter="url(#fmote)"/>`;
+}).join('');
 const chat = `<path d="M0,4 a6,6 0 0 1 6,-6 h16 a6,6 0 0 1 6,6 v10 a6,6 0 0 1 -6,6 h-9 l-6,5 v-5 h-1 a6,6 0 0 1 -6,-6 Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
   <circle cx="8" cy="9" r="1.8" fill="#fff"/><circle cx="14" cy="9" r="1.8" fill="#fff"/><circle cx="20" cy="9" r="1.8" fill="#fff"/>`;
+const miniFuji = (() => {
+  const pts = [];
+  for (let t = 1; t >= 0; t -= 0.05) pts.push([690 - 150 * t, 84 + 60 * (1 - (1 - t) ** 2.2)]);
+  pts.push([694, 83], [702, 85], [712, 82], [720, 84]);
+  for (let t = 0; t <= 1; t += 0.05) pts.push([720 + 160 * t, 84 + 58 * (1 - (1 - t) ** 2.2)]);
+  return `M${pts.map(([x, y]) => `${f(x)},${f(y)}`).join(' L')} Z`;
+})();
+const miniSnow = 'M690,84 L694,83 L702,85 L712,82 L720,84 L742,100 L736,99 L733,106 L728,100 L722,104 L719,111 L714,102 L708,105 L704,99 L699,106 L695,100 L689,103 L684,98 L678,101 L670,99 Z';
 
 const footer = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220">
 <defs>
-  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[1]}"/><stop offset="1" stop-color="${P.sky[2]}"/></linearGradient>
-  <linearGradient id="fground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3ac9f"/><stop offset="1" stop-color="#7b746a"/></linearGradient>
-  ${P.glow ? `<radialGradient id="fglow" cx="${P.glow[1] / 1200}" cy="1" r=".6"><stop offset="0" stop-color="${P.glow[0]}" stop-opacity="${P.glow[3]}"/><stop offset="1" stop-color="${P.glow[0]}" stop-opacity="0"/></radialGradient>` : ''}
-  <linearGradient id="fdark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".45" stop-color="#000" stop-opacity="0"/></linearGradient>
-  <filter id="fgrit" x="0" y="0" width="100%" height="100%">
+  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[0]}"/><stop offset=".55" stop-color="${P.sky[1]}"/><stop offset="1" stop-color="${P.sky[2]}"/></linearGradient>
+  ${P.glow ? `<radialGradient id="fglow" cx="${P.glow[1] / 1200}" cy=".7" r=".6"><stop offset="0" stop-color="${P.glow[0]}" stop-opacity="${P.glow[3]}"/><stop offset="1" stop-color="${P.glow[0]}" stop-opacity="0"/></radialGradient>` : ''}
+  <linearGradient id="fmt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.mt[0]}"/><stop offset="1" stop-color="${P.mt[1]}"/></linearGradient>
+  <linearGradient id="fhaze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[2]}" stop-opacity="0"/><stop offset="1" stop-color="${P.sky[2]}" stop-opacity=".6"/></linearGradient>
+  <linearGradient id="field" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e5f40"/><stop offset="1" stop-color="#b09a6a"/></linearGradient>
+  <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bdb6aa"/><stop offset="1" stop-color="#7b746a"/></linearGradient>
+  <linearGradient id="fdark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".42"/><stop offset=".42" stop-color="#000" stop-opacity="0"/></linearGradient>
+  <linearGradient id="fbottom" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
+  <linearGradient id="box" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8f1a1f"/><stop offset=".3" stop-color="#d9363a"/><stop offset=".55" stop-color="#e6474a"/><stop offset="1" stop-color="#7d1418"/></linearGradient>
+  <radialGradient id="loafg" cx=".45" cy=".3" r=".8"><stop offset="0" stop-color="#f6f3ee"/><stop offset=".8" stop-color="#e4dfd7"/><stop offset="1" stop-color="#c7bfb3"/></radialGradient>
+  <filter id="grit" x="0" y="0" width="100%" height="100%">
     <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3"/>
     <feColorMatrix values="0 0 0 0 .2  0 0 0 0 .19  0 0 0 0 .17  0 0 0 1.4 -.55"/>
     <feComposite in2="SourceGraphic" operator="in"/>
   </filter>
   <filter id="flight"><feColorMatrix values="${P.tint[0]} 0 0 0 0  0 ${P.tint[1]} 0 0 0  0 0 ${P.tint[2]} 0 0  0 0 0 1 0"/></filter>
-  <filter id="fhaze"><feGaussianBlur stdDeviation="1.5"/></filter>
+  <filter id="haze2"><feGaussianBlur stdDeviation="1.5"/></filter>
+  <filter id="blades" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation=".8"/></filter>
+  <filter id="pebblur" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="fmote" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="${dark ? 1.6 : 0.8}"/></filter>
+  <filter id="fsoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation=".6"/></filter>
   <filter id="fshadow" x="-10%" y="-30%" width="120%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity=".3"/></filter>
+  <filter id="fcloud" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
   <clipPath id="fframe"><rect width="1200" height="220" rx="26"/></clipPath>
   <style>
     .paw{fill:#5a5249;opacity:0;animation:paw ${f(PAWS * STEP_S + 6)}s ease-in-out infinite}
-    @keyframes paw{0%{opacity:0}2%{opacity:.7}55%{opacity:.7}70%,100%{opacity:0}}
+    @keyframes paw{0%{opacity:0}2%{opacity:.65}55%{opacity:.65}70%,100%{opacity:0}}
     .tw{animation:tw 3s ease-in-out infinite}
     @keyframes tw{0%,100%{opacity:.15}50%{opacity:1}}
+    .mote{opacity:0;animation:mote 7s ease-in-out infinite}
+    @keyframes mote{0%{opacity:0;transform:translate(0,0)}30%{opacity:${dark ? 0.95 : 0.6}}70%{opacity:${dark ? 0.8 : 0.4}}100%{opacity:0;transform:translate(24px,-22px)}}
+    .drift{animation:drift 90s linear infinite}
+    @keyframes drift{from{transform:translateX(-300px)}to{transform:translateX(1300px)}}
     .loaf{transform-box:fill-box;transform-origin:50% 100%;animation:loaf 4.2s ease-in-out infinite}
-    @keyframes loaf{0%,100%{transform:scale(1,1)}50%{transform:scale(1.01,1.05)}}
+    @keyframes loaf{0%,100%{transform:scale(1,1)}50%{transform:scale(1.01,1.06)}}
+    .tail{transform-box:fill-box;transform-origin:50% 0;animation:tail 5s ease-in-out infinite}
+    @keyframes tail{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(6deg)}}
     .fz{transform-box:fill-box;transform-origin:50% 50%;font-family:${SERIF};font-style:italic;fill:#fff;opacity:0;animation:fz 6s ease-out infinite}
     .fz2{animation-delay:3s}
-    @keyframes fz{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.85}100%{opacity:0;transform:translate(30px,-70px) scale(1.2)}}
+    @keyframes fz{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.85}100%{opacity:0;transform:translate(26px,-56px) scale(1.2)}}
+    .chip{animation:chip 5s ease-in-out infinite}
+    @keyframes chip{0%,100%{stroke-opacity:.22}50%{stroke-opacity:.45}}
     .m{display:none}
     @media (max-width:600px){.d{display:none}.m{display:inline}}
-    @media (prefers-reduced-motion:reduce){*{animation:none!important}.paw{opacity:.55}.fz{opacity:0}}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important}.paw{opacity:.55}.fz,.mote{opacity:0}}
   </style>
 </defs>
 <g clip-path="url(#fframe)">
   <rect width="1200" height="220" fill="url(#fsky)"/>
   ${P.glow ? '<rect width="1200" height="220" fill="url(#fglow)"/>' : ''}
   ${fStars}
-  <g filter="url(#flight)">
-    <path d="M0,128 C240,118 520,124 760,120 C960,117 1100,112 1200,116 L1200,150 L0,150 Z" fill="#26386a" filter="url(#fhaze)"/>
-    <rect y="140" width="1200" height="80" fill="url(#fground)"/>
-    <rect y="140" width="1200" height="80" fill="#fff" filter="url(#fgrit)"/>
-    ${paws}
-    <g transform="translate(1040,186)">
-      <ellipse cx="0" cy="14" rx="74" ry="9" fill="#000" opacity=".25"/>
-      <g class="loaf" fill="#e9e4dc">
-        <path d="M-58,12 C-62,-14 -34,-34 0,-34 C34,-34 60,-16 58,10 C56,16 -56,18 -58,12 Z"/>
-        <path d="M-46,-18 C-34,-26 -24,-28 -14,-28" stroke="#8a8278" stroke-width="7" fill="none" opacity=".5" stroke-linecap="round"/>
-        <path d="M2,-32 C10,-26 14,-18 14,-8" stroke="#8a8278" stroke-width="7" fill="none" opacity=".5" stroke-linecap="round"/>
-        <path d="M26,-28 C34,-20 36,-12 36,-2" stroke="#8a8278" stroke-width="7" fill="none" opacity=".45" stroke-linecap="round"/>
-      </g>
-      <circle cx="-46" cy="-2" r="22" fill="#e3ddd4"/>
-      <path d="M-64,-14 L-70,-34 L-52,-22 Z M-40,-22 L-30,-38 L-26,-16 Z" fill="#cfc8bf"/>
-      <path d="M-56,0 q6,4 12,0 M-40,-2 q6,4 12,0" stroke="#3a332d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <path d="M58,8 C66,24 30,26 -10,20" stroke="#d6d0c7" stroke-width="11" fill="none" stroke-linecap="round"/>
-    </g>
-    <text class="fz" x="1000" y="140" font-size="22">z</text>
-    <text class="fz fz2" x="1000" y="140" font-size="22">z</text>
+  ${P.moon ? '<circle cx="1110" cy="34" r="9" fill="#f4f1e6" opacity=".9"/><circle cx="1114" cy="31" r="8" fill="' + P.sky[0] + '"/>' : ''}
+  <g filter="url(#fcloud)" fill="${P.cloud[0]}" opacity="${f(P.cloud[1] * 0.7)}">
+    <ellipse class="drift" cx="300" cy="40" rx="110" ry="9"/><ellipse class="drift" style="animation-delay:-50s" cx="200" cy="74" rx="140" ry="7"/>
   </g>
+
+  <path d="${miniFuji}" fill="url(#fmt)"/>
+  <path d="${miniSnow}" fill="${P.snow[0]}"/>
+  <path d="M0,124 C120,112 220,118 330,112 C430,106 520,124 620,132 C700,138 780,138 860,128 C960,114 1060,118 1200,108 L1200,150 L0,150 Z" fill="${P.mt[1]}" opacity=".75"/>
+  <rect y="96" width="1200" height="56" fill="url(#fhaze)"/>
+
+  <g filter="url(#flight)">
+    <g transform="translate(0,-212)">
+      <path d="${treeline()}" fill="#141a2c" filter="url(#haze2)"/>
+      <path d="M0,356 C300,350 700,354 1200,350 L1200,396 L0,396 Z" fill="url(#field)" filter="url(#haze2)"/>
+      <g fill="none" stroke-linecap="round" filter="url(#blades)">${grass()}</g>
+      <path d="M0,390 C200,383 420,389 640,385 C860,381 1040,387 1200,383 L1200,460 L0,460 Z" fill="url(#ground)"/>
+      <path d="M0,390 C200,383 420,389 640,385 C860,381 1040,387 1200,383 L1200,460 L0,460 Z" fill="#fff" filter="url(#grit)"/>
+      ${pebbles()}
+    </g>
+    ${paws}
+
+    <g transform="translate(1046,0)">
+      <ellipse cx="0" cy="206" rx="46" ry="7" fill="#000" opacity=".3"/>
+      <rect x="-20" y="188" width="40" height="18" fill="#2b2522"/>
+      <path d="M-32,108 a32,14 0 0 1 64,0 V190 h-64 Z" fill="url(#box)"/>
+      <ellipse cx="0" cy="108" rx="32" ry="14" fill="#e85154"/>
+      <ellipse cx="0" cy="106" rx="26" ry="9" fill="#f06a6c" opacity=".6"/>
+      <rect x="-20" y="128" width="40" height="7" rx="3.5" fill="#3a0d10"/>
+      <rect x="-32" y="186" width="64" height="5" fill="#6d1115"/>
+      <g stroke="#fff" stroke-width="3.4" stroke-linecap="round" opacity=".92">
+        <path d="M-9,150 h18 M-9,157 h18 M0,157 v14"/>
+      </g>
+      <g class="tail"><path d="M30,104 C40,114 40,132 34,148" stroke="#ddd7cf" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <path d="M30,104 C40,114 40,132 34,148" stroke="#867d72" stroke-width="9" fill="none" stroke-linecap="butt" stroke-dasharray="5 7" opacity=".55"/></g>
+      <g filter="url(#fsoft)">
+        <g class="loaf">
+          <path d="M-30,104 C-32,86 -16,74 4,74 C24,74 36,86 34,102 C33,107 -29,108 -30,104 Z" fill="url(#loafg)"/>
+          <g stroke="#867d72" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".5">
+            <path d="M-2,76 C2,82 4,88 4,96"/><path d="M10,76 C16,82 18,90 18,98"/><path d="M22,80 C28,86 30,92 30,100"/>
+          </g>
+        </g>
+        <circle cx="-22" cy="94" r="13" fill="#ebe6df"/>
+        <path d="M-33,87 L-37,73 L-26,81 Z M-17,81 L-11,71 L-9,85 Z" fill="#cbc4ba"/><path d="M-32,85 L-34,77 L-28,82 Z M-15,82 L-12,76 L-11,84 Z" fill="#e8b0ad"/>
+        <path d="M-29,95 q3.5,2.5 7,0 M-19,94 q3.5,2.5 7,0" stroke="#3a332d" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <ellipse cx="-20" cy="100" rx="2" ry="1.4" fill="#e48791"/>
+      </g>
+    </g>
+    <text class="fz" x="1018" y="70" font-size="18">z</text>
+    <text class="fz fz2" x="1018" y="70" font-size="18">z</text>
+    ${motes}
+  </g>
+  <rect width="1200" height="220" fill="url(#fbottom)"/>
   <rect width="1200" height="220" fill="url(#fdark)"/>
 
   <g class="d" filter="url(#fshadow)">
-    <text x="72" y="80" font-family="${SERIF}" font-style="italic" font-size="50" fill="#fff" letter-spacing="-1">say hi</text>
-    <g transform="translate(72,108)">
-      <rect width="300" height="52" rx="26" fill="#000" fill-opacity=".28" stroke="#fff" stroke-opacity=".22"/>
-      <g transform="translate(20,15)">${chat}</g>
-      <text x="62" y="33" font-family="${SANS}" font-size="19" font-weight="600" fill="#fff">${DISCORD}</text>
-      <text x="282" y="33" text-anchor="end" font-family="${SANS}" font-size="15" fill="#fff" opacity=".7">discord</text>
+    <text x="72" y="74" font-family="${SERIF}" font-style="italic" font-size="52" fill="#fff" letter-spacing="-1">say hi</text>
+    <text x="74" y="104" font-family="${MONO}" font-size="12" fill="#fff" opacity=".75" letter-spacing="3">FIND ME ON DISCORD</text>
+    <g transform="translate(72,124)">
+      <rect class="chip" width="268" height="54" rx="27" fill="#000" fill-opacity=".32" stroke="#fff" stroke-opacity=".22"/>
+      <circle cx="27" cy="27" r="19" fill="#5865f2" opacity=".9"/>
+      <g transform="translate(15.5,19) scale(.82)">${chat}</g>
+      <text x="58" y="34" font-family="${SANS}" font-size="19" font-weight="600" fill="#fff">${DISCORD}</text>
+      <path d="M236,22 l9,5 l-9,5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
     </g>
   </g>
   <g class="m" filter="url(#fshadow)">
-    <text x="64" y="96" font-family="${SERIF}" font-style="italic" font-size="84" fill="#fff">say hi</text>
+    <text x="64" y="94" font-family="${SERIF}" font-style="italic" font-size="84" fill="#fff">say hi</text>
     <text x="68" y="168" font-family="${SANS}" font-size="44" font-weight="600" fill="#fff">${DISCORD} · discord</text>
   </g>
 </g>
