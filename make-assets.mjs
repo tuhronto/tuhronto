@@ -528,18 +528,95 @@ const zz = card({
 writeFileSync(`${out}/zzboard.svg`, zz);
 
 /* ---------------- footer ---------------- */
-const paws = Array.from({ length: 12 }, (_, i) => {
-  const x = 90 + i * 88, y = i % 2 ? 54 : 70;
-  return `<g class="paw" style="animation-delay:${f(i * 0.45)}s" transform="translate(${x},${y}) rotate(90)">
-    <ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-6" r="3.6"/><circle cx="-3" cy="-11" r="3.6"/><circle cx="4" cy="-11" r="3.6"/><circle cx="10" cy="-5" r="3.6"/></g>`;
+// same sky as the header, a trail of prints across the gravel to a cat asleep at the end of it
+const DISCORD = '@ztuhronto';
+const PAWS = 13, STEP_S = 0.42;
+const paw = `<path d="M-8,4 C-9,-3 -4,-7 0,-7 C4,-7 9,-3 8,4 C7,9 3,9 0,8 C-3,9 -7,9 -8,4 Z"/>
+    <ellipse cx="-10" cy="-10" rx="3.4" ry="4.4" transform="rotate(-25 -10 -10)"/><ellipse cx="-3.6" cy="-15" rx="3.4" ry="4.6"/>
+    <ellipse cx="3.6" cy="-15" rx="3.4" ry="4.6"/><ellipse cx="10" cy="-10" rx="3.4" ry="4.4" transform="rotate(25 10 -10)"/>`;
+const paws = Array.from({ length: PAWS }, (_, i) => {
+  const x = 470 + i * 38, y = 182 + Math.sin(i * 0.5) * 4 + (i % 2 ? -9 : 9);
+  return `<g class="paw" style="animation-delay:${f(i * STEP_S)}s" transform="translate(${f(x)},${f(y)}) rotate(${i % 2 ? 84 : 96}) scale(.8)">${paw}</g>`;
 }).join('');
-const footer = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" width="1200" height="120">
-<defs><style>
-  .paw{fill:#8a8378;opacity:0;animation:paw 8s ease-in-out infinite}
-  @keyframes paw{0%{opacity:0}4%{opacity:.75}55%{opacity:.75}75%,100%{opacity:0}}
-  @media (prefers-reduced-motion:reduce){.paw{animation:none;opacity:.5}}
-</style></defs>
-${paws}
+const fStars = P.stars ? Array.from({ length: 50 }, () => {
+  const tw = rnd() < 0.4 ? ` class="tw" style="animation-delay:${f(-rnd() * 4)}s"` : '';
+  return `<circle${tw} cx="${f(rnd() * 1200)}" cy="${f(rnd() * 130)}" r="${f(0.5 + rnd() * 1.2)}" fill="#fff" opacity="${f((0.4 + rnd() * 0.6) * P.stars)}"/>`;
+}).join('') : '';
+const chat = `<path d="M0,4 a6,6 0 0 1 6,-6 h16 a6,6 0 0 1 6,6 v10 a6,6 0 0 1 -6,6 h-9 l-6,5 v-5 h-1 a6,6 0 0 1 -6,-6 Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/>
+  <circle cx="8" cy="9" r="1.8" fill="#fff"/><circle cx="14" cy="9" r="1.8" fill="#fff"/><circle cx="20" cy="9" r="1.8" fill="#fff"/>`;
+
+const footer = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220">
+<defs>
+  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[1]}"/><stop offset="1" stop-color="${P.sky[2]}"/></linearGradient>
+  <linearGradient id="fground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3ac9f"/><stop offset="1" stop-color="#7b746a"/></linearGradient>
+  ${P.glow ? `<radialGradient id="fglow" cx="${P.glow[1] / 1200}" cy="1" r=".6"><stop offset="0" stop-color="${P.glow[0]}" stop-opacity="${P.glow[3]}"/><stop offset="1" stop-color="${P.glow[0]}" stop-opacity="0"/></radialGradient>` : ''}
+  <linearGradient id="fdark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".45" stop-color="#000" stop-opacity="0"/></linearGradient>
+  <filter id="fgrit" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3"/>
+    <feColorMatrix values="0 0 0 0 .2  0 0 0 0 .19  0 0 0 0 .17  0 0 0 1.4 -.55"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>
+  <filter id="flight"><feColorMatrix values="${P.tint[0]} 0 0 0 0  0 ${P.tint[1]} 0 0 0  0 0 ${P.tint[2]} 0 0  0 0 0 1 0"/></filter>
+  <filter id="fhaze"><feGaussianBlur stdDeviation="1.5"/></filter>
+  <filter id="fshadow" x="-10%" y="-30%" width="120%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity=".3"/></filter>
+  <clipPath id="fframe"><rect width="1200" height="220" rx="26"/></clipPath>
+  <style>
+    .paw{fill:#5a5249;opacity:0;animation:paw ${f(PAWS * STEP_S + 6)}s ease-in-out infinite}
+    @keyframes paw{0%{opacity:0}2%{opacity:.7}55%{opacity:.7}70%,100%{opacity:0}}
+    .tw{animation:tw 3s ease-in-out infinite}
+    @keyframes tw{0%,100%{opacity:.15}50%{opacity:1}}
+    .loaf{transform-box:fill-box;transform-origin:50% 100%;animation:loaf 4.2s ease-in-out infinite}
+    @keyframes loaf{0%,100%{transform:scale(1,1)}50%{transform:scale(1.01,1.05)}}
+    .fz{transform-box:fill-box;transform-origin:50% 50%;font-family:${SERIF};font-style:italic;fill:#fff;opacity:0;animation:fz 6s ease-out infinite}
+    .fz2{animation-delay:3s}
+    @keyframes fz{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.85}100%{opacity:0;transform:translate(30px,-70px) scale(1.2)}}
+    .m{display:none}
+    @media (max-width:600px){.d{display:none}.m{display:inline}}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important}.paw{opacity:.55}.fz{opacity:0}}
+  </style>
+</defs>
+<g clip-path="url(#fframe)">
+  <rect width="1200" height="220" fill="url(#fsky)"/>
+  ${P.glow ? '<rect width="1200" height="220" fill="url(#fglow)"/>' : ''}
+  ${fStars}
+  <g filter="url(#flight)">
+    <path d="M0,128 C240,118 520,124 760,120 C960,117 1100,112 1200,116 L1200,150 L0,150 Z" fill="#26386a" filter="url(#fhaze)"/>
+    <rect y="140" width="1200" height="80" fill="url(#fground)"/>
+    <rect y="140" width="1200" height="80" fill="#fff" filter="url(#fgrit)"/>
+    ${paws}
+    <g transform="translate(1040,186)">
+      <ellipse cx="0" cy="14" rx="74" ry="9" fill="#000" opacity=".25"/>
+      <g class="loaf" fill="#e9e4dc">
+        <path d="M-58,12 C-62,-14 -34,-34 0,-34 C34,-34 60,-16 58,10 C56,16 -56,18 -58,12 Z"/>
+        <path d="M-46,-18 C-34,-26 -24,-28 -14,-28" stroke="#8a8278" stroke-width="7" fill="none" opacity=".5" stroke-linecap="round"/>
+        <path d="M2,-32 C10,-26 14,-18 14,-8" stroke="#8a8278" stroke-width="7" fill="none" opacity=".5" stroke-linecap="round"/>
+        <path d="M26,-28 C34,-20 36,-12 36,-2" stroke="#8a8278" stroke-width="7" fill="none" opacity=".45" stroke-linecap="round"/>
+      </g>
+      <circle cx="-46" cy="-2" r="22" fill="#e3ddd4"/>
+      <path d="M-64,-14 L-70,-34 L-52,-22 Z M-40,-22 L-30,-38 L-26,-16 Z" fill="#cfc8bf"/>
+      <path d="M-56,0 q6,4 12,0 M-40,-2 q6,4 12,0" stroke="#3a332d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M58,8 C66,24 30,26 -10,20" stroke="#d6d0c7" stroke-width="11" fill="none" stroke-linecap="round"/>
+    </g>
+    <text class="fz" x="1000" y="140" font-size="22">z</text>
+    <text class="fz fz2" x="1000" y="140" font-size="22">z</text>
+  </g>
+  <rect width="1200" height="220" fill="url(#fdark)"/>
+
+  <g class="d" filter="url(#fshadow)">
+    <text x="72" y="80" font-family="${SERIF}" font-style="italic" font-size="50" fill="#fff" letter-spacing="-1">say hi</text>
+    <g transform="translate(72,108)">
+      <rect width="300" height="52" rx="26" fill="#000" fill-opacity=".28" stroke="#fff" stroke-opacity=".22"/>
+      <g transform="translate(20,15)">${chat}</g>
+      <text x="62" y="33" font-family="${SANS}" font-size="19" font-weight="600" fill="#fff">${DISCORD}</text>
+      <text x="282" y="33" text-anchor="end" font-family="${SANS}" font-size="15" fill="#fff" opacity=".7">discord</text>
+    </g>
+  </g>
+  <g class="m" filter="url(#fshadow)">
+    <text x="64" y="96" font-family="${SERIF}" font-style="italic" font-size="84" fill="#fff">say hi</text>
+    <text x="68" y="168" font-family="${SANS}" font-size="44" font-weight="600" fill="#fff">${DISCORD} · discord</text>
+  </g>
+</g>
+<rect x=".5" y=".5" width="1199" height="219" rx="26" fill="none" stroke="#fff" stroke-opacity=".09"/>
 </svg>`;
 writeFileSync(`${out}/footer.svg`, footer);
 
