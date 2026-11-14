@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+<defs>
+  <clipPath id="vc"><rect width="1200" height="320" rx="26"/></clipPath>
+  <linearGradient id="vsheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <filter id="vgrain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5"/>
+    <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 -.35"/>
+  </filter>
+  <filter id="vblur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter>
+  <filter id="vshadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000" flood-opacity=".55"/></filter>
+  <linearGradient id="vside" x1="0" x2="1"><stop offset=".3" stop-color="#09090b"/><stop offset=".6" stop-color="#09090b" stop-opacity=".25"/><stop offset="1" stop-color="#09090b" stop-opacity="0"/></linearGradient>
+  <linearGradient id="vart" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0894a"/><stop offset=".5" stop-color="#c2417a"/><stop offset="1" stop-color="#3d3fc4"/></linearGradient>
+  <linearGradient id="vavasky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a66d4"/><stop offset="1" stop-color="#9dbdea"/></linearGradient>
+  <clipPath id="vava"><circle cx="58" cy="62" r="30"/></clipPath>
+  <style>
+    .m{display:none}
+    @media (max-width:600px){.d{display:none}.m{display:inline}.vis{opacity:.55}}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+    .ly{opacity:0;animation:ly 12.8s ease-in-out infinite}
+   @keyframes ly{0%{opacity:0;transform:translateY(5px)}4%{opacity:1;transform:none}21%{opacity:1;transform:none}25%{opacity:0;transform:translateY(-5px)}100%{opacity:0}}
+   .prog{transform-box:fill-box;transform-origin:0 50%;animation:prog 12.8s linear infinite}
+   @keyframes prog{from{transform:scaleX(.08)}to{transform:scaleX(1)}}
+   .bar{transform-box:fill-box;transform-origin:50% 0;animation:eq 1.6s ease-in-out infinite}
+   @keyframes eq{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.72)}}
+   .blob{transform-box:fill-box;transform-origin:center}
+   .a{animation:wa 14s ease-in-out infinite}.b{animation:wb 17s ease-in-out infinite}.c{animation:wa 21s ease-in-out infinite reverse}
+   @keyframes wa{0%,100%{transform:translate(0,0)}50%{transform:translate(-90px,40px)}}
+   @keyframes wb{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-50px)}}
+  </style>
+</defs>
+<g clip-path="url(#vc)">
+  <rect width="1200" height="320" fill="#09090b"/>
+  <g filter="url(#vblur)" opacity=".6">
+    <circle class="blob a" cx="880" cy="110" r="160" fill="#c2417a"/>
+    <circle class="blob b" cx="1080" cy="250" r="150" fill="#3d3fc4"/>
+    <circle class="blob c" cx="720" cy="300" r="120" fill="#e0894a"/>
+  </g>
+  <rect width="1200" height="320" fill="url(#vside)"/>
+  <g class="vis"><g class="d" transform="translate(72,34) scale(.85)"><rect class="bar" style="animation-delay:0s" x="0" y="0" width="9" height="64" rx="4.5" fill="#fff"/><rect class="bar" style="animation-delay:0.2s" x="15" y="0" width="9" height="46" rx="4.5" fill="#fff"/><rect class="bar" style="animation-delay:0.4s" x="30" y="0" width="9" height="28" rx="4.5" fill="#fff"/><rect class="bar" style="animation-delay:0.5s" x="45" y="0" width="9" height="46" rx="4.5" fill="#fff"/><rect class="bar" style="animation-delay:0.7s" x="60" y="0" width="9" height="64" rx="4.5" fill="#fff"/></g>
+  <g transform="translate(700,40)" filter="url(#vshadow)">
+    <rect width="430" height="240" rx="16" fill="#111214"/>
+    <rect width="430" height="240" rx="16" fill="none" stroke="#fff" stroke-opacity=".08"/>
+    <path d="M0,16 a16,16 0 0 1 16,-16 h398 a16,16 0 0 1 16,16 v44 h-430 Z" fill="url(#vart)" opacity=".85"/>
+    <circle cx="58" cy="62" r="36" fill="#111214"/>
+    <g clip-path="url(#vava)">
+      <rect x="28" y="32" width="60" height="60" fill="url(#vavasky)"/>
+      <path d="M28,80 L50,58 L58,54 L64,58 L88,80 Z" fill="#3a5592"/>
+      <path d="M50,58 L58,54 L64,58 L60,62 L56,59 L52,63 Z" fill="#fff"/>
+      <ellipse cx="44" cy="88" rx="22" ry="10" fill="#e9e5df"/>
+    </g>
+    <circle cx="83" cy="86" r="9" fill="#111214"/><circle cx="83" cy="86" r="5.5" fill="#23a55a"/>
+    <text x="24" y="124" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="700" fill="#f2f3f5">tuhronto</text>
+    <text x="24" y="160" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="700" fill="#b5bac1" letter-spacing="1">LISTENING TO VERSED</text>
+    <rect x="24" y="172" width="52" height="52" rx="8" fill="url(#vart)"/>
+    <text x="90" y="188" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#f2f3f5">porch light</text>
+    <g transform="translate(90,207)" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#dbdee1"><text class="ly" style="animation-delay:0s" x="0" y="0">left the porch light on for you</text><text class="ly" style="animation-delay:3.2s" x="0" y="0">the radio keeps humming low</text><text class="ly" style="animation-delay:6.4s" x="0" y="0">we drove until the city blurred</text><text class="ly" style="animation-delay:9.6s" x="0" y="0">and every song was ours to know</text></g>
+    <rect x="90" y="217" width="310" height="4" rx="2" fill="#4e5058"/>
+    <rect class="prog" x="90" y="217" width="310" height="4" rx="2" fill="#f2f3f5"/>
+  </g></g>
+  <rect width="1200" height="320" filter="url(#vgrain)" opacity=".035"/>
+  <g class="d">
+    <text x="72" y="150" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="64" fill="#fafafa" letter-spacing="-2" font-weight="600">versed</text>
+    <text x="76" y="196" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#a1a1aa">your discord status sings along to</text><text x="76" y="224" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#a1a1aa">whatever you're playing</text>
+    <text x="76" y="278" font-family="Consolas, 'SF Mono', Menlo, 'DejaVu Sans Mono', monospace" font-size="12.5" fill="#71717a" letter-spacing="2.5">V0.8.0  ·  203 DOWNLOADS  ·  WINDOWS · MACOS · LINUX</text>
+  </g>
+  <g class="m">
+    <text x="64" y="140" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="92.8" fill="#fafafa" letter-spacing="-2" font-weight="600">versed</text>
+    <text x="68" y="206" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="600" fill="#a1a1aa">lyrics in your</text><text x="68" y="252" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="600" fill="#a1a1aa">discord status</text>
+    
+  </g>
+  <rect width="1200" height="320" fill="url(#vsheen)"/>
+</g>
+<rect x=".5" y=".5" width="1199" height="319" rx="26" fill="none" stroke="#fff" stroke-opacity=".09"/>
+</svg>
